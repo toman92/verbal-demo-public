@@ -1,0 +1,87 @@
+generator client {
+    provider      = "prisma-client-js"
+    output        = "../../common/build/prisma/client"
+    binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id         Int     @id @default(autoincrement())
+    email      String  @unique @db.VarChar(100)
+    password   String? @db.VarChar(255)
+    visitCount Int     @default(0)
+    firstName  String? @db.VarChar(100)
+    lastName   String? @db.VarChar(100)
+    roleId     Int
+    deleted    Boolean @default(false)
+
+    Role Role @relation(fields: [roleId], references: [id])
+
+    StoriesCreated Story[] @relation("createUser")
+    @@index([email], name: "email")
+    @@index([roleId], name: "roleId")
+}
+
+model Role {
+    id Int @id @default(autoincrement())
+
+    name            RoleName         @unique
+    RolePermissions RolePermission[]
+    Users           User[]
+}
+
+model RolePermission {
+    id     Int @id @default(autoincrement())
+    roleId Int
+
+    permission Permission
+    Role       Role       @relation(fields: [roleId], references: [id])
+
+    @@unique([roleId, permission])
+    @@index([roleId], name: "roleId")
+}
+
+model Story {
+    id          Int       @id @unique @default(autoincrement())
+    createdById Int?
+    synopsis    String    @default("") @db.LongText
+    overview    String?   @db.LongText
+    storyName   String    @unique @db.VarChar(150)
+    author      String    @default("") @db.VarChar(100)
+    type        StoryType @default(ShortStory)
+    createdDate DateTime  @default(now())
+
+    CreateUser User? @relation("createUser", fields: [createdById], references: [id])
+}
+
+enum RoleName {
+    Admin
+    StoryAdmin
+    Coordinator
+}
+
+enum Permission {
+    FullAccess
+
+    WidgetView
+
+    StoryView
+    StoryCreate
+    StoryUpdate
+    StoryDelete
+
+    UserView
+    UserCreate
+    UserUpdate
+    UserDelete
+
+}
+
+enum StoryType {
+    ShortStory
+    Extract
+}

@@ -1,0 +1,31 @@
+{
+    "name": "common",
+    "version": "1.0.0",
+    "description": "Verbal Monolith Shared Code",
+    "main": "build/index.js",
+    "types": "build/index.d.ts",
+    "scripts": {
+        "start": "npm run generate && tsc -w --preserveWatchOutput",
+        "build": "npm run generate && tsc",
+        "lint": "eslint 'src/**/*.{js,ts}' --max-warnings 0",
+        "lint-fix": "eslint 'src/**/*.{js,ts}' --fix",
+        "generate": "prisma generate --schema=\"../admin-api.theverbal.co/prisma/schema.prisma\""
+    },
+    "author": "Verbal",
+    "private": true,
+    "devDependencies": {
+        "@types/faker": "^5.5.9",
+        "@typescript-eslint/eslint-plugin": "^5.5.0",
+        "@typescript-eslint/parser": "^5.5.0",
+        "eslint": "^7.26.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "faker": "^5.5.3",
+        "prettier": "^2.5.1",
+        "prisma": "^3.13.0",
+        "typescript": "^4.2.4"
+    },
+    "dependencies": {
+        "@prisma/client": "^3.13.0"
+    }
+}

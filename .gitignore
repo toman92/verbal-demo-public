@@ -1,0 +1,10 @@
+node_modules
+build
+.DS_Store
+/**/.idea/inspectionProfiles
+/**/.idea/php.xml
+/**/.idea/misc.xml
+/**/.idea/workspace.xml
+/**/.idea/dataSources.local.xml
+/.idea/dataSources
+dataSources.xml

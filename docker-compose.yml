@@ -1,0 +1,20 @@
+version: "3.6"
+
+services:
+  db:
+    image: mariadb:10.6
+    ports:
+      - 3310:3306
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=demo
+      - MARIADB_USER=demo
+      - MARIADB_PASSWORD=demo
+    entrypoint: sh -c "
+      echo 'CREATE DATABASE IF NOT EXISTS demo; CREATE DATABASE IF NOT EXISTS demoTest;
+      GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON demoTest.* TO demo@\"%\";
+      GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, DROP, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES ON demo.* TO demo@\"%\";' > /docker-entrypoint-initdb.d/init.sql;
+      /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+volumes:
+  mariadb-data:
