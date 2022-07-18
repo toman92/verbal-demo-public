@@ -61,7 +61,7 @@ cd "${ROOT}"
 docker-compose up -d
 
 announce "checking mysql server"
-while ! netstat -tna | grep 'LISTEN' | grep -q '3309'; do
+while ! netstat -tna | grep 'LISTEN' | grep -q '3310'; do
   announce "waiting for mysql server"
   sleep 1
 done
