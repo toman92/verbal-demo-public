@@ -7,13 +7,13 @@ const useStyles = makeStyles(
     createStyles({
         widget: {
             height: "100%",
-            minHeight: "235px",
+            minHeight: "180px",
         },
         widgetInner: {
             display: "flex",
             height: "100%",
             justifyContent: "space-between",
-            flexDirection: "column",
+            flexDirection: "row",
         },
         centered: {
             textAlign: "center",

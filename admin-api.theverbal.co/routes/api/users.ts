@@ -1,10 +1,12 @@
 import * as express from "express";
 import { crudPermissions, CrudRouter } from "../crudRouter";
-import { Permission, Prisma, PrismaClient, User } from "common/build/prisma/client";
+import { Permission, prisma, Prisma, PrismaClient, User } from "common/build/prisma/client";
 import { DashboardStats, LastThirtyDays } from "common/build/api-parameters/users";
 import UserCreateInput = Prisma.UserCreateInput;
 import RoleWhereUniqueInput = Prisma.RoleWhereUniqueInput;
 import permit from "../../middleware/authorisation";
+import { date } from "../../helpers/date";
+import {dateFromNow} from "common/src/utils/dateFromNow"
 
 export const ERROR_EMAIL_IN_USE = "Email In Use";
 
@@ -97,14 +99,20 @@ export class UserCrudRouter extends CrudRouter {
 
     lastThirtyDays = async(request: express.Request, response: express.Response): Promise<express.Response> => {
         //count how many stories have been added in the previous 30 days
-        
-        const amountLast30 = await request.prisma.story.findMany({
-            where:  {
-                createdDate: {
-                    gte: new Date()// where story was within the last 30 days
-                } 
-            }
-        }) 
+        const today = date;
+        const amountLast30 = await request.prisma.story.findMany(
+        {
+            where:  
+            {
+                createdDate: 
+                
+                {
+                        lte: dateFromNow(0,false),
+                        gte: dateFromNow(30,false)
+                },
+            },
+        }
+        );
 
         response.json(<LastThirtyDays>{
             pre30DaysStories: amountLast30.length,
