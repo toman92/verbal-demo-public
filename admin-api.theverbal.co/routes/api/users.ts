@@ -1,7 +1,7 @@
 import * as express from "express";
 import { crudPermissions, CrudRouter } from "../crudRouter";
 import { Permission, Prisma, PrismaClient, User } from "common/build/prisma/client";
-import { DashboardStats } from "common/build/api-parameters/users";
+import { DashboardStats, LastThirtyDays } from "common/build/api-parameters/users";
 import UserCreateInput = Prisma.UserCreateInput;
 import RoleWhereUniqueInput = Prisma.RoleWhereUniqueInput;
 import permit from "../../middleware/authorisation";
@@ -45,7 +45,7 @@ export class UserCrudRouter extends CrudRouter {
     intialiseRoutes(permissions: crudPermissions): void {
         const authMiddleware = this.getAuthMiddleware();
         this.router.get("/dashboard-stats", authMiddleware, permit(Permission.WidgetView), this.dashboardStats);
-
+        this.router.get("/last-30-days",authMiddleware,permit(Permission.WidgetView), this.lastThirtyDays);
         super.intialiseRoutes(permissions);
     }
 
@@ -90,6 +90,24 @@ export class UserCrudRouter extends CrudRouter {
 
         response.json(<DashboardStats>{
             totalStories: storiesLength,
+        });
+
+        return response;
+    };
+
+    lastThirtyDays = async(request: express.Request, response: express.Response): Promise<express.Response> => {
+        //count how many stories have been added in the previous 30 days
+        
+        const amountLast30 = await request.prisma.story.findMany({
+            where:  {
+                createdDate: {
+                    gte: new Date()// where story was within the last 30 days
+                } 
+            }
+        }) 
+
+        response.json(<LastThirtyDays>{
+            pre30DaysStories: amountLast30.length,
         });
 
         return response;

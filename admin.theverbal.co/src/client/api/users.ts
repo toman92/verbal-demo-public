@@ -2,7 +2,7 @@ import { User } from "common/build/prisma/client";
 import { getData, patchData, postData } from "./rest";
 import { objectToQueryString } from "../../utils/api";
 import { ListParameters } from "../../../../common/build/api-parameters/common";
-import { DashboardStats } from "common/build/api-parameters/users";
+import { DashboardStats, LastThirtyDays } from "common/build/api-parameters/users";
 
 export const list = async (args: Record<string, unknown> & ListParameters): Promise<{ items: User[]; total: number }> =>
     await getData(`/user${objectToQueryString(args)}`);
@@ -16,3 +16,5 @@ export const update = async (id: number, editedUser: Partial<User>): Promise<Res
     await patchData(`/user/${id}`, { ...editedUser });
 
 export const getStats = (): Promise<DashboardStats> => getData("/user/dashboard-stats");
+
+export const getLast30 = (): Promise<LastThirtyDays> => getData("/user/last-30-days");
