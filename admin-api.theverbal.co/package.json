@@ -25,6 +25,7 @@
         "seed:roles": "export SEED_ROLE_PERMISSIONS_ONLY=1 && prisma db seed",
         "reset-test-db": "dotenv -e .test.env prisma db push -- --force-reset",
         "test": "dotenv -e .test.env prisma db push -- --force-reset && jest -i --silent"
+        "test:watch": "jest --watch"
     },
     "engines": {
         "node": "14"

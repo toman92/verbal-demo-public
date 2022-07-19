@@ -112,7 +112,7 @@ export class UserCrudRouter extends CrudRouter {
                 },
             },
         }
-        );
+        )
 
         response.json(<LastThirtyDays>{
             pre30DaysStories: amountLast30.length,
