@@ -88,11 +88,11 @@ As a story admin, I want to be able to see how many stories have been added to t
     b. Write or update unit tests for the new functionality.  
 7. Some Tips:  
     a. Keep DRY (Don't Repeat Yourself) principles in mind while developing. Eg. Check if you can reuse or modify existing components/functions before developing new ones.  
-    b. Keep the requirements in mind while development.   
+    b. Keep the requirements in mind during development.   
     c. Don't have unused imports or variables. Make use of the lint script in each of the `package.json` files to help with this.
-8. When complete, push the branch with your name up to github and send an email to sean@theverbal.co to notify that you have completed the task.
+8. When complete, create a pull request on github and send an email to clare@theverbal.co (please cc it@theverbal.co) to notify that you have completed the task.
 
 ## **Contact**
-If you have any issues, questions/queries or want to talk about anything, please don't hesitate to contact Sean at sean@theverbal.co. I will be glad to answer any questions you may have.
+If you have any issues or questions, please contact it@theverbal.co.
 
-Best of luck and happy coding :) 
+Best of luck
